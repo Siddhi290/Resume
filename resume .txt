@@ -1,0 +1,77 @@
+import json
+
+def parse_resume(resume_text):
+    # Split resume text into sections based on common headings
+    sections = resume_text.split('\n\n')
+    resume_dict = {}
+
+    # Define common section headings
+    section_headings = ['Personal Information', 'Education', 'Experience', 'Skills', 'Projects', 'Certifications', 'Activities', 'Personal Details']
+
+    # Initialize current section to None
+    current_section = None
+
+    for section in sections:
+        lines = section.split('\n')
+        if lines[0] in section_headings:
+            current_section = lines[0]
+            resume_dict[current_section] = "\n".join(lines[1:])
+        elif current_section:
+            resume_dict[current_section] += "\n" + section
+
+    # Return JSON formatted resume
+    return json.dumps(resume_dict, indent=4)
+
+# Example resume text input
+resume_text = """
+Personal Information
+Siddhi Kulkarni
+B.Tech, Computer Engineering | 2021-25
++919552948142 | 202202376@vupune.ac.in | kulkarnisiddhi57@gmail.com
+
+Skills
+Domain skills
+• Python
+• SQL
+• Dsa
+• Cyber security
+• AI
+
+People Skills
+• Communication
+• Leadership
+• Project Management
+• Presentation
+• Teamwork
+
+Software / Tools
+Microsoft Power (Advanced)
+MS Office
+MySQL (intermediate)
+
+Education
+B.Tech: Vishwakarma University, Pune | Computer Engineering | 2021-2025
+Diploma: Government polytechnic, Pune | 75.00% | 2019-2022
+SSC: Shree Siddheshwar Vidyalaya, Majalgaon | 87.20% | 2019
+
+Projects
+NLP sentiment analysis: | NLP Report
+Laptop speaker checker: sp | generate the system report
+Pong Game: python
+
+Certifications
+Software engineering course - Simplilraen
+Complete C programming
+Python intermediate level course completed
+
+Personal Details
+DoB: 29-sep-2003
+Gender: female
+Nationality: Indian
+
+Activities
+Sports: Badminton
+"""
+
+# Parse resume and print JSON output
+print(parse_resume(resume_text))
